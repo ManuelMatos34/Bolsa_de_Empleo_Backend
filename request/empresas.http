@@ -1,0 +1,26 @@
+@api = http://localhost:4000/empresas
+
+GET {{api}}
+
+###
+POST {{api}}
+Content-Type: application/json
+
+{
+    "Comp_ID": 1234567897,
+    "Comp_Name": "fake",
+    "Comp_Description": "fake",
+    "Comp_Telephone": 1234567687,
+    "Comp_FirstStreet": "fake",
+    "Comp_SecondStreet": "fake",
+    "Comp_City": "fake",
+    "Comp_State": "fake",
+    "Comp_PostalCode": "fake",
+    "Comp_KeyContact": "fake",
+    "Comp_KYTelephone": 1234545663,
+    "Comp_EmailAddress": "fake",
+    "Img_ID": null,
+    "Comp_Website": "fake",
+    "Comp_Status": "1",
+    "User_ID": 1
+}
