@@ -1,16 +1,5 @@
-var sql = require("msnodesqlv8");
-
-async function GetConn() {
+export function GetConn() {
     const connectionString =
-        "server=DESKTOP-A3EVB09\\SQLEXPRESS;Database=node_practice;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
-
-    await sql.query(connectionString, query, (err, rows) => {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log(rows);
-        }
-    });
-}
-
-GetConn();
+        "server=DESKTOP-A3EVB09\\SQLEXPRESS;Database=sis_bolsa_empleo;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
+    return connectionString;
+};
