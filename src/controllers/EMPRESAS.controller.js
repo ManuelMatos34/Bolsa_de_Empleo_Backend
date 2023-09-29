@@ -1,10 +1,10 @@
 import { getConnection, sql } from "../database/connection";
-import querys from "../database/querys";
+import { querysEmpresas } from "../database/querys";
 
 export const getEmpresas = async (req, res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request().query(querys.selectEmpresas);
+        const result = await pool.request().query(querysEmpresas.selectEmpresas);
         if (result.recordset.length == 0) {
             res.status(404).json({
                 message: "No hay empresas registradas",
@@ -32,7 +32,6 @@ export const postEmpresas = async (req, res) => {
         Comp_KYTelephone,
         Comp_EmailAddress,
         Comp_Website,
-        Comp_Status,
         User_ID,
     } = req.body;
     try {
@@ -40,7 +39,7 @@ export const postEmpresas = async (req, res) => {
         const result = await pool1
             .request()
             .input("Id", sql.Numeric, Comp_ID)
-            .query(querys.searchEmpresa);
+            .query(querysEmpresas.searchEmpresa);
         if (result.recordset.length > 0) {
             return res.status(400).json({
                 message: "La empresa ya existe",
@@ -62,9 +61,9 @@ export const postEmpresas = async (req, res) => {
             .input("Comp_KYTelephone", sql.Numeric, Comp_KYTelephone)
             .input("Comp_EmailAddress", sql.VarChar, Comp_EmailAddress)
             .input("Comp_Website", sql.VarChar, Comp_Website)
-            .input("Comp_Status", sql.Char, Comp_Status)
+            .input("Comp_Status", sql.Char, "1")
             .input("User_ID", sql.Int, User_ID)
-            .query(querys.insertEmpresas);
+            .query(querysEmpresas.insertEmpresas);
         if (req.files !== null) {
             const logo_company = req.files.archivo.data;
             const pool_img = await getConnection();
@@ -72,7 +71,7 @@ export const postEmpresas = async (req, res) => {
                 .request()
                 .input("Img", sql.VarBinary, logo_company)
                 .input("Comp_ID", sql.Numeric, Comp_ID)
-                .query(querys.insertIMG);
+                .query(querysEmpresas.insertIMG);
         }
         res.json(req.body);
     } catch (error) {
@@ -92,7 +91,7 @@ export const getEmpresaById = async (req, res) => {
         const result = await pool
             .request()
             .input("Id", sql.Numeric, id)
-            .query(querys.selectEmpresaById);
+            .query(querysEmpresas.selectEmpresaById);
 
         if (result.recordset.length > 0) {
             res.json(result.recordset[0]);
@@ -118,7 +117,7 @@ export const deleteEmpresa = async (req, res) => {
         const result = await pool
             .request()
             .input("Id", sql.Numeric, id)
-            .query(querys.deleteEmpresa);
+            .query(querysEmpresas.deleteEmpresa);
         if (result.rowsAffected[0] !== 0) {
             res.json({
                 message: "Empresa eliminada",
@@ -171,7 +170,7 @@ export const updateEmpresa = async (req, res) => {
             .input("Comp_Website", sql.VarChar, Comp_Website)
             .input("Comp_Status", sql.Char, Comp_Status)
             .input("User_ID", sql.Int, User_ID)
-            .query(querys.updateEmpresa);
+            .query(querysEmpresas.updateEmpresa);
         if (req.files !== null) {
             const logo_company = req.files.archivo.data;
             const pool_img = await getConnection();
@@ -179,7 +178,7 @@ export const updateEmpresa = async (req, res) => {
                 .request()
                 .input("Img", sql.VarBinary, logo_company)
                 .input("Comp_ID", sql.Numeric, Comp_ID)
-                .query(querys.updateIMG);
+                .query(querysEmpresas.updateIMG);
         }
         res.json({
             message: "Empresa actualizada",
