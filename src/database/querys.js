@@ -13,5 +13,10 @@ export const querysUsuarios = {
     selectUsuarios: "SELECT * FROM USUARIOS WHERE User_Status = 1",
     searchUsuario: "SELECT * FROM USUARIOS WHERE User_Email = @User_Email",
     insertUsuario: "INSERT INTO USUARIOS (User_Password,User_Email,User_CreationDate,User_PaswdExpire,User_CreationAproval,User_Status,Rol_ID) VALUES (@User_Password,@User_Email,@User_CreationDate,@User_PaswdExpire,@User_CreationAproval,@User_Status,@Rol_ID)",
-  
+    selectUsuarioById: "SELECT * FROM USUARIOS WHERE User_ID = @Id AND User_Status = 1",
+    deleteUsuario: "UPDATE USUARIOS SET User_Status = 0 WHERE User_ID = @Id",
+    searchUsuarioById: "SELECT * FROM USUARIOS WHERE User_ID = @User_ID",
+    updatePasswordUser: "UPDATE USUARIOS SET User_Password = @New_Password, User_PaswdExpire = @User_PaswdExpire WHERE User_ID = @User_ID",
+    updateMailUsuario: "UPDATE USUARIOS SET User_Email = @User_Email WHERE User_ID = @User_ID",
+    searchPass: "SELECT User_Password FROM USUARIOS WHERE User_ID = @User_ID",
 }
