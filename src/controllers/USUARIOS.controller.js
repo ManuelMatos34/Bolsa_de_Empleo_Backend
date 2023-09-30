@@ -55,7 +55,7 @@ export const postUsuario = async (req, res) => {
 export const getUsuarioById = async (req, res) => {
     try {
         const { id } = req.params;
-        if (id === null) {
+        if (id === "") {
             return res.status(400).json({
                 message: "El id es obligatorio",
             });
@@ -81,7 +81,7 @@ export const getUsuarioById = async (req, res) => {
 export const deleteUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        if (id === null) {
+        if (id === "") {
             return res.status(400).json({
                 message: "El id es obligatorio",
             });
@@ -139,8 +139,18 @@ export const updateUsuario = async (req, res) => {
                 });
             }
         }
-
         if (New_User_Email !== "") {
+            const poolEmail = await getConnection();
+            const resultEmail = await poolEmail
+                .request()
+                .input("User_ID", sql.Int, User_ID)
+                .query(querysUsuarios.searchEmail);
+            const r = resultEmail.recordset[0].User_Email;
+            if (r === New_User_Email) {
+                return res.status(400).json({
+                    message: "El correo electrónico es igual al anterior",
+                });
+            }
             const pool1 = await getConnection();
             const result1 = await pool1
                 .request()
@@ -163,6 +173,52 @@ export const updateUsuario = async (req, res) => {
         res.json({
             message: "Usuario actualizado",
         });
+    } catch (error) {
+        res.send(error.message);
+    }
+};
+
+export const validateUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (id === "") {
+            return res.status(400).json({
+                message: "El id es obligatorio",
+            });
+        }
+        const pool = await getConnection();
+        const result = await pool
+            .request()
+            .input("Id", sql.Int, id)
+            .input("User_CreationAproval", sql.Char, "1")
+            .query(querysUsuarios.validateUser);
+        if (result.rowsAffected[0] !== 0) {
+            res.json({
+                message: "Usuario validado",
+            });
+        } else {
+            res.status(404).json({
+                message: "Usuario no encontrado",
+            });
+        }
+    } catch (error) {
+        res.send(error.message);
+    }
+};
+
+export const getValidateUser = async (req, res) => {
+    try {
+        const pool = await getConnection();
+        const result = await pool.request()
+            .input("User_CreationAproval", sql.Char, "0")
+            .query(querysUsuarios.getValidateUser);
+        if (result.recordset.length == 0) {
+            res.status(404).json({
+                message: "No hay usuarios registrados",
+            });
+        } else {
+            res.json(result.recordset);
+        }
     } catch (error) {
         res.send(error.message);
     }

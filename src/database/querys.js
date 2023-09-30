@@ -19,4 +19,7 @@ export const querysUsuarios = {
     updatePasswordUser: "UPDATE USUARIOS SET User_Password = @New_Password, User_PaswdExpire = @User_PaswdExpire WHERE User_ID = @User_ID",
     updateMailUsuario: "UPDATE USUARIOS SET User_Email = @User_Email WHERE User_ID = @User_ID",
     searchPass: "SELECT User_Password FROM USUARIOS WHERE User_ID = @User_ID",
+    searchEmail: "SELECT User_Email FROM USUARIOS WHERE User_ID = @User_ID",
+    validateUser: "UPDATE USUARIOS SET User_CreationAproval = @User_CreationAproval WHERE User_ID = @Id",
+    getValidateUser: "SELECT * FROM USUARIOS WHERE User_CreationAproval = @User_CreationAproval",
 }
