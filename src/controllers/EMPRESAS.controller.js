@@ -82,7 +82,7 @@ export const postEmpresas = async (req, res) => {
 export const getEmpresaById = async (req, res) => {
     try {
         const { id } = req.params;
-        if (id === null) {
+        if (id === "") {
             return res.status(400).json({
                 message: "El id es obligatorio",
             });
@@ -108,7 +108,7 @@ export const getEmpresaById = async (req, res) => {
 export const deleteEmpresa = async (req, res) => {
     try {
         const { id } = req.params;
-        if (id === null) {
+        if (id === "") {
             return res.status(400).json({
                 message: "El id es obligatorio",
             });

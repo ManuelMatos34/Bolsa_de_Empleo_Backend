@@ -7,7 +7,7 @@ export const querysEmpresas = {
     searchEmpresa: "SELECT * FROM EMPRESAS WHERE Comp_ID = @Id",
     insertIMG: "INSERT INTO EMPRESA_LOGO (Img,Comp_ID,Comp_Logo_Status) VALUES (@Img,@Comp_ID, 1)",
     updateIMG: "UPDATE EMPRESA_LOGO SET Img = @Img WHERE Comp_ID = @Comp_ID",
-}
+};
 
 export const querysUsuarios = {
     selectUsuarios: "SELECT * FROM USUARIOS WHERE User_Status = 1",
@@ -22,4 +22,13 @@ export const querysUsuarios = {
     searchEmail: "SELECT User_Email FROM USUARIOS WHERE User_ID = @User_ID",
     validateUser: "UPDATE USUARIOS SET User_CreationAproval = @User_CreationAproval WHERE User_ID = @Id",
     getValidateUser: "SELECT * FROM USUARIOS WHERE User_CreationAproval = @User_CreationAproval",
-}
+};
+
+export const querysOfertas = {
+    insertOferta: "INSERT INTO OFERTA_LABORAL (Job_Title,Job_Description,Job_Requeriments,Job_CreationDate,Job_EndDate,Job_Modality,Job_NoVacancy,Job_ContractType,Job_Salary,Comp_ID,Job_Status,Ca_ID) VALUES (@Job_Title,@Job_Description,@Job_Requeriments,@Job_CreationDate,@Job_EndDate,@Job_Modality,@Job_NoVacancy,@Job_ContractType,@Job_Salary,@Comp_ID,@Job_Status,@Ca_ID)",
+    selectOfertas: "SELECT * FROM OFERTA_LABORAL WHERE Job_Status = 1",
+    selectOfertaById: "SELECT * FROM OFERTA_LABORAL WHERE Job_ID = @Id AND Job_Status = 1",
+    deleteOferta: "UPDATE OFERTA_LABORAL SET Job_Status = 0 WHERE Job_ID = @Id",
+    updateOferta: "UPDATE OFERTA_LABORAL SET Job_Title = @Job_Title, Job_Description = @Job_Description, Job_Requeriments = @Job_Requeriments, Job_Modality = @Job_Modality, Job_NoVacancy = @Job_NoVacancy, Job_ContractType = @Job_ContractType, Job_Salary = @Job_Salary, Ca_ID = @Ca_ID WHERE Job_ID = @Job_ID",
+    searchOferta: "SELECT * FROM OFERTA_LABORAL WHERE Job_Title = @Job_Title",
+};
