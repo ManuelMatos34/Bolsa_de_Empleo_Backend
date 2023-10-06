@@ -32,3 +32,18 @@ export const querysOfertas = {
     updateOferta: "UPDATE OFERTA_LABORAL SET Job_Title = @Job_Title, Job_Description = @Job_Description, Job_Requeriments = @Job_Requeriments, Job_Modality = @Job_Modality, Job_NoVacancy = @Job_NoVacancy, Job_ContractType = @Job_ContractType, Job_Salary = @Job_Salary, Ca_ID = @Ca_ID WHERE Job_ID = @Job_ID",
     searchOferta: "SELECT * FROM OFERTA_LABORAL WHERE Job_Title = @Job_Title",
 };
+export const querysCalificaciones = {
+    selectCalificaciones: "SELECT c.Rev_ID ,c.Rev_Confirmation ,c.Rev_Description ,c.Std_ID, e.Std_FisrtName, e.Std_SecondName ,c.Job_ID ,c.Rev_Status FROM CALIFICACIONES c INNER JOIN ESTUDIANTES e ON c.Std_ID = e.Std_ID WHERE e.Ca_ID = @Ca_ID;",
+    selectCalificacionesById: "SELECT c.Rev_ID,c.Rev_Confirmation,c.Rev_Description ,c.Std_ID,c.Job_ID,c.Rev_Status,e.Std_FisrtName,e.Std_SecondName,e.Std_LastName ,o.Job_Title FROM CALIFICACIONES c INNER JOIN ESTUDIANTES e ON c.Std_ID = e.Std_ID INNER JOIN OFERTA_LABORAL o ON c.Job_ID = o.Job_ID WHERE Rev_ID = @Id;",
+    postCalificacion: "INSERT INTO CALIFICACIONES (Rev_Confirmation,Rev_Description,Std_ID,Job_ID,Rev_Status) VALUES (@Rev_Confirmation,@Rev_Description,@Std_ID,@Job_ID,@Rev_Status)",
+    putCalificacion: "UPDATE CALIFICACIONES SET Rev_Confirmation = @Rev_Confirmation, Rev_Description = @Rev_Description WHERE Rev_ID = @Rev_ID",
+};
+
+export const querysCarreras = {
+    getCarreras: "SELECT * FROM CARRERAS WHERE Ca_Status = 1",
+    searchCarrera: "SELECT * FROM CARRERAS WHERE Ca_Description = @Ca_Description",
+    postCarrera: "INSERT INTO CARRERAS (Ca_Description,Fac_ID,Ca_Status) VALUES (@Ca_Description,@Fac_ID,1)",
+    getCarreraById: "SELECT * FROM CARRERAS WHERE Ca_ID = @Id",
+    deleteCarrera: "UPDATE CARRERAS SET Ca_Status = 0 WHERE Ca_ID = @Id",
+    putCarrera: "UPDATE CARRERAS SET Ca_Description = @Ca_Description, Fac_ID = @Fac_ID WHERE Ca_ID = @Ca_ID",
+};
