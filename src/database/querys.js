@@ -15,7 +15,7 @@ export const querysUsuarios = {
     insertUsuario: "INSERT INTO USUARIOS (User_Password,User_Email,User_CreationDate,User_PaswdExpire,User_CreationAproval,User_Status,Rol_ID) VALUES (@User_Password,@User_Email,@User_CreationDate,@User_PaswdExpire,@User_CreationAproval,@User_Status,@Rol_ID)",
     selectUsuarioById: "SELECT * FROM USUARIOS WHERE User_ID = @Id AND User_Status = 1",
     deleteUsuario: "UPDATE USUARIOS SET User_Status = 0 WHERE User_ID = @Id",
-    searchUsuarioById: "SELECT * FROM USUARIOS WHERE User_ID = @User_ID",
+    searchUsuarioById: "SELECT * FROM USUARIOS WHERE User_ID = @User_ID AND User_Status = 1",
     updatePasswordUser: "UPDATE USUARIOS SET User_Password = @New_Password, User_PaswdExpire = @User_PaswdExpire WHERE User_ID = @User_ID",
     updateMailUsuario: "UPDATE USUARIOS SET User_Email = @User_Email WHERE User_ID = @User_ID",
     searchPass: "SELECT User_Password FROM USUARIOS WHERE User_ID = @User_ID",
@@ -43,7 +43,26 @@ export const querysCarreras = {
     getCarreras: "SELECT * FROM CARRERAS WHERE Ca_Status = 1",
     searchCarrera: "SELECT * FROM CARRERAS WHERE Ca_Description = @Ca_Description",
     postCarrera: "INSERT INTO CARRERAS (Ca_Description,Fac_ID,Ca_Status) VALUES (@Ca_Description,@Fac_ID,1)",
-    getCarreraById: "SELECT * FROM CARRERAS WHERE Ca_ID = @Id",
+    getCarreraById: "SELECT * FROM CARRERAS WHERE Ca_ID = @Id and Ca_Status = 1",
     deleteCarrera: "UPDATE CARRERAS SET Ca_Status = 0 WHERE Ca_ID = @Id",
     putCarrera: "UPDATE CARRERAS SET Ca_Description = @Ca_Description, Fac_ID = @Fac_ID WHERE Ca_ID = @Ca_ID",
 };
+
+export const querysFacultades = {
+    getFacultades: "SELECT * FROM FACULTADES WHERE Fa_Status = 1",
+    searchFacultad: "SELECT * FROM FACULTADES WHERE Fa_Description = @Fa_Description",  
+    postFacultad: "INSERT INTO FACULTADES (Fa_Description,Fa_Status) VALUES (@Fa_Description,@Fa_Status)",
+    getFacultadById: "SELECT * FROM FACULTADES WHERE Fa_ID = @Id and Fa_Status = 1",
+    deleteFacultad: "UPDATE FACULTADES SET Fa_Status = 0 WHERE Fa_ID = @Id",
+    putFacultad: "UPDATE FACULTADES SET Fa_Description = @Fa_Description WHERE Fa_ID = @Fa_ID",
+};
+
+export const querysHabilidades = {
+    getHabilidades: "SELECT * FROM HABILIDADES WHERE Skill_Status = 1",
+    searchHabilidad: "SELECT * FROM HABILIDADES WHERE Skill = @Skill AND Ca_ID = @Ca_ID",
+    postHabilidad: "INSERT INTO HABILIDADES (Skill,Ca_ID,Skill_Status) VALUES (@Skill,@Ca_ID,1)",
+    getHabilidadById: "SELECT * FROM HABILIDADES WHERE Skill_ID = @Id and Skill_Status = 1",
+    deleteHabilidad: "UPDATE HABILIDADES SET Skill_Status = 0 WHERE Skill_ID = @Id",
+    putHabilidad: "UPDATE HABILIDADES SET Skill = @Skill WHERE Skill_ID = @Skill_ID"
+};
+
