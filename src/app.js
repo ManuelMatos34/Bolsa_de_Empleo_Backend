@@ -8,6 +8,8 @@ import calificacionesRoutes from "./routes/CALIFICACIONES.routes";
 import carrerasRoutes from "./routes/CARRERAS.routes";
 import facultadesRoutes from "./routes/FACULTADES.routes";
 import habilidadesRoutes from "./routes/HABILIDADES.routes";
+import rolesRoutes from "./routes/ROLES.routes";
+import rel_estudiantes_habilidadesRoutes from "./routes/REL_ESTUDIANTES_HABILIDADES.routes";
 
 const app = express();
 
@@ -24,5 +26,7 @@ app.use(calificacionesRoutes);
 app.use(carrerasRoutes);
 app.use(facultadesRoutes);
 app.use(habilidadesRoutes);
+app.use(rolesRoutes);
+app.use(rel_estudiantes_habilidadesRoutes);
 
 export default app;

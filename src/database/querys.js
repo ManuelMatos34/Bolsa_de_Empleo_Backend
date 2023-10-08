@@ -66,3 +66,18 @@ export const querysHabilidades = {
     putHabilidad: "UPDATE HABILIDADES SET Skill = @Skill WHERE Skill_ID = @Skill_ID"
 };
 
+export const querysRoles = {
+    getRoles: "SELECT * FROM ROLES WHERE Rol_Status = 1",
+    searchRol: "SELECT * FROM ROLES WHERE Rol_Description = @Rol_Description",
+    postRol: "INSERT INTO ROLES (Rol_Description,Rol_Status) VALUES (@Rol_Description,1)",
+    getRolById: "SELECT * FROM ROLES WHERE Rol_ID = @Id and Rol_Status = 1",
+    deleteRol: "UPDATE ROLES SET Rol_Status = 0 WHERE Rol_ID = @Id",
+    putRol: "UPDATE ROLES SET Rol_Description = @Rol_Description WHERE Rol_ID = @Rol_ID"
+};
+
+export const querysREL_ESTUDIANTES_HABILIDADES = {
+    getHabNotEst: "SELECT H.Skill_ID, H.Skill FROM HABILIDADES AS H WHERE H.Ca_ID = @Ca_ID and H.Skill_ID NOT IN (SELECT REH.Skill_ID FROM REL_ESTUDIANTES_HABILIDADES AS REH WHERE REH.Std_ID = @Std_ID);",
+    searchHabByEst: "SELECT REH.ID, REH.Std_ID, REH.Skill_ID, REH.Rel_Status, H.Skill FROM REL_ESTUDIANTES_HABILIDADES AS REH INNER JOIN HABILIDADES AS H ON REH.Skill_ID = H.Skill_ID WHERE Std_ID = @Std_ID",
+    postEstxHab: "INSERT INTO REL_ESTUDIANTES_HABILIDADES (Skill_ID,Std_ID,Rel_Status) VALUES (@Skill_ID,@Std_ID,1)",
+    deleteEstxHab: "DELETE FROM REL_ESTUDIANTES_HABILIDADES WHERE ID = @Id",
+};
