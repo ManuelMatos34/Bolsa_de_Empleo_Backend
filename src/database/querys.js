@@ -81,3 +81,19 @@ export const querysREL_ESTUDIANTES_HABILIDADES = {
     postEstxHab: "INSERT INTO REL_ESTUDIANTES_HABILIDADES (Skill_ID,Std_ID,Rel_Status) VALUES (@Skill_ID,@Std_ID,1)",
     deleteEstxHab: "DELETE FROM REL_ESTUDIANTES_HABILIDADES WHERE ID = @Id",
 };
+
+export const querysSOLICITUDES_OFERTAS_LABORALES = {
+    getSolicitudesByEmpre: "SELECT SOL.Req_ID, OL.[Job_ID], OL.[Job_Title], OL.[Job_ContractType], OL.[Job_Modality], OL.[Job_NoVacancy], OL.[Job_Salary], COUNT(SOL.[Std_ID]) AS NumberOfApplicants FROM [sis_bolsa_empleo].[dbo].[OFERTA_LABORAL] OL LEFT JOIN [sis_bolsa_empleo].[dbo].[SOLICITUDES_OFERTAS_LABORALES] SOL ON OL.[Job_ID] = SOL.[Job_ID] WHERE OL.[Comp_ID] = @Comp_ID GROUP BY SOL.Req_ID, OL.[Job_ID], OL.[Job_Title], OL.[Job_ContractType], OL.[Job_Modality], OL.[Job_NoVacancy], OL.[Job_Salary] ORDER BY OL.[Job_ID];",
+    getAllDataBySoli: "SELECT E.[Std_FisrtName], E.[Std_SecondName], E.[Std_LastName], E.[Std_EducationalEmail], E.[Std_PersonalEmail], E.[Std_Telephone], E.[Std_HomePhone], E.[CV_ID] FROM [sis_bolsa_empleo].[dbo].[ESTUDIANTES] E INNER JOIN [sis_bolsa_empleo].[dbo].[SOLICITUDES_OFERTAS_LABORALES] SOL ON E.[Std_ID] = SOL.[Std_ID] WHERE SOL.[Job_ID] = @Job_ID;",
+    getSoliByCarrera: "SELECT [Job_ID], [Job_Title], [Job_Modality], [Job_NoVacancy], [Job_ContractType] FROM [sis_bolsa_empleo].[dbo].[OFERTA_LABORAL] WHERE [Ca_ID] = @Ca_ID;",
+    postSolicitud: "INSERT INTO SOLICITUDES_OFERTAS_LABORALES (Req_Date,Req_SalaryExpetation,Req_RequestStatus,Job_ID,Std_ID,Req_Status) VALUES (@Req_Date,@Req_SalaryExpetation,@Req_RequestStatus,@Job_ID,@Std_ID,1)",
+    confirmSolicitud: "UPDATE SOLICITUDES_OFERTAS_LABORALES SET Req_RequestStatus = @Req_RequestStatus WHERE Req_ID = @Req_ID",
+    declaSolicitud: "UPDATE SOLICITUDES_OFERTAS_LABORALES SET Req_RequestStatus = @Req_RequestStatus WHERE Req_ID = @Req_ID",
+    getJobsByStudent: "SELECT OL.[Job_ID], OL.[Job_Title], OL.[Job_ContractType], OL.[Job_Modality], OL.[Job_NoVacancy], OL.[Job_Salary], SOL.[Req_RequestStatus] FROM [sis_bolsa_empleo].[dbo].[OFERTA_LABORAL] OL INNER JOIN [sis_bolsa_empleo].[dbo].[SOLICITUDES_OFERTAS_LABORALES] SOL ON OL.[Job_ID] = SOL.[Job_ID] WHERE SOL.[Std_ID] = @Std_ID;"   
+};
+
+export const querysAUTH = {
+    getStudent: "SELECT * FROM ESTUDIANTES WHERE Std_ID = @Std_ID AND Std_Password = @Std_Password AND Std_Status = 1",
+    getUser: "SELECT * FROM USUARIOS WHERE User_Email = @User_Email AND User_Status = 1",
+
+};

@@ -10,10 +10,11 @@ import facultadesRoutes from "./routes/FACULTADES.routes";
 import habilidadesRoutes from "./routes/HABILIDADES.routes";
 import rolesRoutes from "./routes/ROLES.routes";
 import rel_estudiantes_habilidadesRoutes from "./routes/REL_ESTUDIANTES_HABILIDADES.routes";
-
-const app = express();
+import solicitudesRoutes from "./routes/SOLICITUDES_OFERTAS_LABORALES.routes";  
+import authRoutes from "./routes/AUTH.routes";
 
 // settings
+const app = express();
 app.set("port", config.port);
 app.use(express.json());
 app.use(fileUpload())
@@ -28,5 +29,7 @@ app.use(facultadesRoutes);
 app.use(habilidadesRoutes);
 app.use(rolesRoutes);
 app.use(rel_estudiantes_habilidadesRoutes);
+app.use(solicitudesRoutes);
+app.use(authRoutes);
 
 export default app;
