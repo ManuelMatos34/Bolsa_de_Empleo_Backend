@@ -1,11 +1,13 @@
 import { getConnection, sql } from "../database/connection";
 import { querysAUTH } from "../database/querys";
 import { handleCompare } from "../helpers/handleEncrypt";
+const JWT = require('jsonwebtoken');
 
 export const authStudent = async (req, res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request()
+        const result = await pool
+            .request()
             .input("Std_ID", sql.VarChar, req.body.Std_ID)
             .input("Std_Password", sql.VarChar, req.body.Std_Password)
             .query(querysAUTH.getStudent);
@@ -14,6 +16,7 @@ export const authStudent = async (req, res) => {
                 message: "Datos incorrectos",
             });
         } else {
+
             res.json(result.recordset);
         }
     } catch (error) {
@@ -24,12 +27,16 @@ export const authStudent = async (req, res) => {
 export const authUser = async (req, res) => {
     try {
         const pool = await getConnection();
-        const result = await pool.request()
+        const result = await pool
+            .request()
             .input("User_Email", sql.VarChar, req.body.User_Email)
             .query(querysAUTH.getUser);
         const r = result.recordset[0];
         const encriptedPassword = r.User_Password;
-        const comparedPassword = await handleCompare(req.body.User_Password, encriptedPassword);
+        const comparedPassword = await handleCompare(
+            req.body.User_Password,
+            encriptedPassword
+        );
         if (comparedPassword) {
             res.json(result.recordset);
         } else {
@@ -41,3 +48,4 @@ export const authUser = async (req, res) => {
         res.send(error.message);
     }
 };
+

@@ -6,7 +6,7 @@ export const getCarreras = async (req, res) => {
         const pool = await getConnection();
         const result = await pool.request().query(querysCarreras.getCarreras);
         if (result.recordset.length == 0) {
-            res.status(404).json({
+            res.json({
                 message: "No hay carreras registradas",
             });
         } else {
@@ -29,7 +29,7 @@ export const postCarrera = async (req, res) => {
             .input("Ca_Description", sql.VarChar, Ca_Description)
             .query(querysCarreras.searchCarrera);
         if (result.recordset.length > 0) {
-            return res.status(400).json({
+            return res.json({
                 message: "La carrera ya existe",
             });
         }
@@ -49,7 +49,7 @@ export const getCarreraById = async (req, res) => {
     try {
         const { id } = req.params;
         if (id === "") {
-            return res.status(400).json({
+            return res.json({
                 message: "El id es obligatorio",
             });
         }
@@ -62,7 +62,7 @@ export const getCarreraById = async (req, res) => {
         if (result.recordset.length > 0) {
             res.json(result.recordset[0]);
         } else {
-            res.status(404).json({
+            res.json({
                 message: "Carrera no encontrada",
             });
         }
@@ -75,7 +75,7 @@ export const deleteCarrera = async (req, res) => {
     try {
         const { id } = req.params;
         if (id === "") {
-            return res.status(400).json({
+            return res.json({
                 message: "El id es obligatorio",
             });
         }
@@ -89,7 +89,7 @@ export const deleteCarrera = async (req, res) => {
                 message: "Carrera eliminada",
             });
         } else {
-            res.status(404).json({
+            res.json({
                 message: "Carrera no encontrada",
             });
         }
@@ -111,7 +111,7 @@ export const putCarrera = async (req, res) => {
             .input("Ca_Description", sql.VarChar, Ca_Description)
             .query(querysCarreras.searchCarrera);
         if (result.recordset.length > 0) {
-            return res.status(400).json({
+            return res.json({
                 message: "La carrera ya existe",
             });
         }

@@ -13,8 +13,8 @@ export const getHabNotEst = async (req, res) => {
             .input("Std_ID", sql.VarChar, Std_ID)
             .query(querysREL_ESTUDIANTES_HABILIDADES.getHabNotEst);
         if (result.recordset.length == 0) {
-            res.status(404).json({
-                message: "No hay registros",
+            res.json({
+                message: 0,
             });
         } else {
             res.json(result.recordset);
@@ -28,7 +28,7 @@ export const searchHabByEst = async (req, res) => {
     try {
         const { Std_ID } = req.body;
         if (Std_ID === "") {
-            return res.status(400).json({
+            return res.json({
                 message: "El id es obligatorio",
             });
         }
@@ -39,10 +39,10 @@ export const searchHabByEst = async (req, res) => {
             .query(querysREL_ESTUDIANTES_HABILIDADES.searchHabByEst);
 
         if (result.recordset.length > 0) {
-            res.json(result.recordset[0]);
+            res.json(result.recordset);
         } else {
-            res.status(404).json({
-                message: "Registro no encontrado",
+            res.json({
+                message: 0,
             });
         }
     } catch (error) {
@@ -86,7 +86,7 @@ export const deleteEstxHab = async (req, res) => {
                 message: "Registro eliminado",
             });
         } else {
-            res.status(404).json({
+            res.json({
                 message: "Registro no encontrado",
             });
         }

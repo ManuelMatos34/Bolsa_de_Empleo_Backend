@@ -12,9 +12,18 @@ import rolesRoutes from "./routes/ROLES.routes";
 import rel_estudiantes_habilidadesRoutes from "./routes/REL_ESTUDIANTES_HABILIDADES.routes";
 import solicitudesRoutes from "./routes/SOLICITUDES_OFERTAS_LABORALES.routes";  
 import authRoutes from "./routes/AUTH.routes";
+import estudiantesRoutes from "./routes/ESTUDIANTES.routes";
+
 
 // settings
 const app = express();
+const cors = require('cors');
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+}));
+
 app.set("port", config.port);
 app.use(express.json());
 app.use(fileUpload())
@@ -31,5 +40,6 @@ app.use(rolesRoutes);
 app.use(rel_estudiantes_habilidadesRoutes);
 app.use(solicitudesRoutes);
 app.use(authRoutes);
+app.use(estudiantesRoutes);
 
 export default app;

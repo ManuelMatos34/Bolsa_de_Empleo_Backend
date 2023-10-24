@@ -8,7 +8,7 @@ export const getOfertas = async (req, res) => {
         const pool = await getConnection();
         const result = await pool.request().query(querysOfertas.selectOfertas);
         if (result.recordset.length == 0) {
-            res.status(404).json({
+            res.json({
                 message: "No hay ofertas registradas",
             });
         } else {
@@ -34,10 +34,10 @@ export const postOferta = async (req, res) => {
     try {
         const pool = await getConnection();
         const result = await pool.request()
-        .input("Job_Title", sql.VarChar, Job_Title)
-        .query(querysOfertas.searchOferta);
+            .input("Job_Title", sql.VarChar, Job_Title)
+            .query(querysOfertas.searchOferta);
         if (result.recordset.length > 0) {
-            return res.status(400).json({
+            return res.json({
                 message: "La oferta ya existe",
             });
         }
@@ -82,8 +82,34 @@ export const getOfertaById = async (req, res) => {
         if (result.recordset.length > 0) {
             res.json(result.recordset[0]);
         } else {
-            res.status(404).json({
+            res.json({
                 message: "Oferta no encontrada",
+            });
+        }
+    } catch (error) {
+        res.send(error.message);
+    }
+};
+
+export const getOfertaByCarrera = async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (id === "") {
+            return res.status(400).json({
+                message: "El id es obligatorio",
+            });
+        }
+        const pool = await getConnection();
+        const result = await pool
+            .request()
+            .input("Ca_ID", sql.Int, id)
+            .query(querysOfertas.selectOfertaByCarrera);
+
+        if (result.recordset.length > 0) {
+            res.json(result.recordset);
+        } else {
+            res.json({
+                message: 0,
             });
         }
     } catch (error) {
@@ -109,7 +135,7 @@ export const deleteOferta = async (req, res) => {
                 message: "Oferta eliminada",
             });
         } else {
-            res.status(404).json({
+            res.json({
                 message: "Oferta no encontrada",
             });
         }
@@ -134,10 +160,10 @@ export const updateOferta = async (req, res) => {
     try {
         const poolse = await getConnection();
         const result = await poolse.request()
-        .input("Job_Title", sql.VarChar, Job_Title)
-        .query(querysOfertas.searchOferta);
+            .input("Job_Title", sql.VarChar, Job_Title)
+            .query(querysOfertas.searchOferta);
         if (result.recordset.length > 0) {
-            return res.status(400).json({
+            return res.json({
                 message: "Ya existe una oferta con ese titulo",
             });
         }
