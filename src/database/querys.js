@@ -51,7 +51,7 @@ export const querysCarreras = {
 
 export const querysFacultades = {
     getFacultades: "SELECT * FROM FACULTADES WHERE Fa_Status = 1",
-    searchFacultad: "SELECT * FROM FACULTADES WHERE Fa_Description = @Fa_Description",  
+    searchFacultad: "SELECT * FROM FACULTADES WHERE Fa_Description = @Fa_Description",
     postFacultad: "INSERT INTO FACULTADES (Fa_Description,Fa_Status) VALUES (@Fa_Description,@Fa_Status)",
     getFacultadById: "SELECT * FROM FACULTADES WHERE Fa_ID = @Id and Fa_Status = 1",
     deleteFacultad: "UPDATE FACULTADES SET Fa_Status = 0 WHERE Fa_ID = @Id",
@@ -90,16 +90,41 @@ export const querysSOLICITUDES_OFERTAS_LABORALES = {
     postSolicitud: "INSERT INTO SOLICITUDES_OFERTAS_LABORALES (Req_Date,Req_SalaryExpetation,Req_RequestStatus,Job_ID,Std_ID,Req_Status) VALUES (@Req_Date,@Req_SalaryExpetation,@Req_RequestStatus,@Job_ID,@Std_ID,1)",
     confirmSolicitud: "UPDATE SOLICITUDES_OFERTAS_LABORALES SET Req_RequestStatus = @Req_RequestStatus WHERE Req_ID = @Req_ID",
     declaSolicitud: "UPDATE SOLICITUDES_OFERTAS_LABORALES SET Req_RequestStatus = @Req_RequestStatus WHERE Req_ID = @Req_ID",
-    getJobsByStudent: "SELECT OL.*, E.[Comp_Name], SOL.[Req_RequestStatus] FROM [sis_bolsa_empleo].[dbo].[OFERTA_LABORAL] OL INNER JOIN [sis_bolsa_empleo].[dbo].[SOLICITUDES_OFERTAS_LABORALES] SOL ON OL.[Job_ID] = SOL.[Job_ID] INNER JOIN [sis_bolsa_empleo].[dbo].[EMPRESAS] E ON OL.[Comp_ID] = E.[Comp_ID] WHERE SOL.[Std_ID] = @Std_ID;"   
+    getJobsByStudent: "SELECT OL.*, E.[Comp_Name], SOL.[Req_RequestStatus] FROM [sis_bolsa_empleo].[dbo].[OFERTA_LABORAL] OL INNER JOIN [sis_bolsa_empleo].[dbo].[SOLICITUDES_OFERTAS_LABORALES] SOL ON OL.[Job_ID] = SOL.[Job_ID] INNER JOIN [sis_bolsa_empleo].[dbo].[EMPRESAS] E ON OL.[Comp_ID] = E.[Comp_ID] WHERE SOL.[Std_ID] = @Std_ID;"
 };
 
 export const querysAUTH = {
-    getStudent: "SELECT E.*, C.Ca_Description FROM ESTUDIANTES E LEFT JOIN CARRERAS C ON E.Ca_ID = C.Ca_ID WHERE E.Std_ID = @Std_ID AND E.Std_Password = @Std_Password AND E.Std_Status = 1;",
+    getStudent: "SELECT E.Std_ID, E.Ca_ID, E.Std_FirstName ,E.Std_SecondName ,E.Std_LastName FROM ESTUDIANTES E WHERE E.Std_ID = @Std_ID AND E.Std_Password = @Std_Password AND E.Std_Status = 1;",
     getUser: "SELECT * FROM USUARIOS WHERE User_Email = @User_Email AND User_Status = 1",
 };
 
 export const querysESTUDIANTES = {
-    getStdById: "SELECT * FROM ESTUDIANTES WHERE Std_ID = @Std_ID", 
+    getStdById: "SELECT C.Ca_Description, E.Rol_ID, E.Std_LastName, E.Std_ID, E.Std_Birthday, E.Std_City, E.Std_FirstName, E.Std_FirstStreet, E.Std_EducationalEmail, E.Std_HomePhone, E.Std_Telephone, E.Std_Identification, E.Std_SecondStreet, E.Std_SecondName, E.Std_PostalCode, E.Std_PersonalEmail, E.Std_State, I.Img, V.Cv_ID FROM ESTUDIANTES E LEFT JOIN CARRERAS C ON E.Ca_ID = C.Ca_ID LEFT JOIN ESTUDIANTES_IMAGEN I ON E.Std_ID = I.Std_ID LEFT JOIN CV V ON E.Std_ID = V.Std_ID WHERE E.Std_ID = @Std_ID;",
     putStd: "UPDATE ESTUDIANTES SET Std_FirstName = @Std_FirstName, Std_SecondName = @Std_SecondName, Std_LastName = @Std_LastName, Std_PersonalEmail = @Std_PersonalEmail, Std_FirstStreet = @Std_FirstStreet, Std_SecondStreet = @Std_SecondStreet, Std_City = @Std_City, Std_State = @Std_State, Std_PostalCode = @Std_PostalCode, Std_Telephone = @Std_Telephone, Std_HomePhone = @Std_HomePhone WHERE Std_ID = @Std_ID",
 
+};
+
+export const querysIMAGES = {
+    getImgEst: "SELECT Std_Img_ID, Img ,Std_Img_Status FROM ESTUDIANTES_IMAGEN WHERE Std_ID = @Id",
+    getImgEmp: "SELECT Comp_Logo_ID,Img ,Comp_Logo_Status FROM EMPRESA_LOGO where Comp_ID = @Id",
+    postImgEst: "INSERT INTO ESTUDIANTES_IMAGEN (Img,Std_ID,Std_Img_Status) VALUES (@Img,@Std_ID,1)",
+    postImgEmp: "INSERT INTO EMPRESA_LOGO (Img,Comp_ID,Comp_Logo_Status) VALUES (@Img,@id,1)",
+    verifyImg: "select * from ESTUDIANTES_IMAGEN where Std_ID = @Std_ID",
+    updateImgEst: "UPDATE ESTUDIANTES_IMAGEN SET Img = @Img WHERE Std_ID = @Std_ID",
+};
+
+export const querysCV = {
+    searchCV: "SELECT Cv_ID FROM CV WHERE Std_ID = @Std_ID",
+    postCv: "INSERT INTO CV (Cv, Std_ID, Cv_Status) VALUES (@CV, @Std_ID, 1);",
+    putCv: "UPDATE CV SET Cv = @CV WHERE Std_ID = @Std_ID",
+    getCv: "SELECT Cv FROM CV WHERE Std_ID = @Std_ID",
+};
+
+export const querysEXPERIENCIA = {
+    getExp: "SELECT * FROM EXPERIENCIA WHERE Exp_Status = 1",
+    getExpByEst: "SELECT * FROM EXPERIENCIA WHERE Std_ID = @Std_ID",
+    postExp: "INSERT INTO EXPERIENCIA (Position,Company,ContractType,Country,Modality,Exp_Status,InitiaDate,EndDate,Std_ID) VALUES (@Position,@Company,@ContractType,@Country,@Modality,1,@InitiaDate,@EndDate,@Std_ID)",
+    getExpById: "SELECT * FROM EXPERIENCIA WHERE Exp_ID = @Exp_ID AND Exp_Status = 1",
+    deleteExp: "UPDATE EXPERIENCIA SET Exp_Status = 0 WHERE Exp_ID = @Id",
+    putExp: "UPDATE EXPERIENCIA SET Position = @Position, Company = @Company, ContractType = @ContractType, Country = @Country, Modality = @Modality, Exp_Status = 1, InitiaDate = @InitiaDate, EndDate = @EndDate WHERE Exp_ID = @Exp_ID",
 };

@@ -13,6 +13,9 @@ import rel_estudiantes_habilidadesRoutes from "./routes/REL_ESTUDIANTES_HABILIDA
 import solicitudesRoutes from "./routes/SOLICITUDES_OFERTAS_LABORALES.routes";  
 import authRoutes from "./routes/AUTH.routes";
 import estudiantesRoutes from "./routes/ESTUDIANTES.routes";
+import imagesRoutes from "./routes/IMAGES.routes";
+import cvRoutes from "./routes/CV.routes";
+import experienciaRoutes from "./routes/EXPERIENCIA.routes";
 
 
 // settings
@@ -41,5 +44,8 @@ app.use(rel_estudiantes_habilidadesRoutes);
 app.use(solicitudesRoutes);
 app.use(authRoutes);
 app.use(estudiantesRoutes);
+app.use(imagesRoutes);
+app.use(cvRoutes);
+app.use(experienciaRoutes);
 
 export default app;
