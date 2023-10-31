@@ -94,8 +94,8 @@ export const querysSOLICITUDES_OFERTAS_LABORALES = {
 };
 
 export const querysAUTH = {
-    getStudent: "SELECT E.Std_ID, E.Ca_ID, E.Std_FirstName ,E.Std_SecondName ,E.Std_LastName FROM ESTUDIANTES E WHERE E.Std_ID = @Std_ID AND E.Std_Password = @Std_Password AND E.Std_Status = 1;",
-    getUser: "SELECT * FROM USUARIOS WHERE User_Email = @User_Email AND User_Status = 1",
+    getStudent: "SELECT E.Std_ID, E.Ca_ID, E.Std_FirstName ,E.Std_SecondName ,E.Std_LastName, E.Rol_ID FROM ESTUDIANTES E WHERE E.Std_ID = @Std_ID AND E.Std_Password = @Std_Password AND E.Std_Status = 1;",
+    getUser: "SELECT * FROM USUARIOS U WHERE User_Email = @User_Email AND User_Status = 1",
 };
 
 export const querysESTUDIANTES = {

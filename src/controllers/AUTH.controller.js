@@ -12,7 +12,7 @@ export const authStudent = async (req, res) => {
             .input("Std_Password", sql.VarChar, req.body.Std_Password)
             .query(querysAUTH.getStudent);
         if (result.recordset.length == 0) {
-            res.status(404).json({
+            res.json({
                 message: "Datos incorrectos",
             });
         } else {
@@ -40,7 +40,7 @@ export const authUser = async (req, res) => {
         if (comparedPassword) {
             res.json(result.recordset);
         } else {
-            res.status(404).json({
+            res.json({
                 message: "Datos incorrectos",
             });
         }
