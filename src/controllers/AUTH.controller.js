@@ -49,3 +49,22 @@ export const authUser = async (req, res) => {
     }
 };
 
+export const authCompanie = async (req, res) => {
+    try {
+        const pool = await getConnection();
+        const result = await pool
+            .request()
+            .input("User_Email", sql.VarChar, req.body.User_Email)
+            .input("User_Password", sql.VarChar, req.body.User_Password)
+            .query(querysAUTH.getCompanie);
+        if (result.recordset.length == 0) {
+            res.json({
+                message: "Datos incorrectos",
+            });
+        } else {
+            res.json(result.recordset);
+        }
+    } catch (error) {
+        res.send(error.message);
+    }
+};

@@ -1,5 +1,5 @@
 export const querysEmpresas = {
-    insertEmpresas: "INSERT INTO EMPRESAS (Comp_ID,Comp_Name,Comp_Description,Comp_Telephone,Comp_FirstStreet,Comp_SecondStreet,Comp_City,Comp_State,Comp_PostalCode,Comp_KeyContact,Comp_KYTelephone,Comp_EmailAddress,Comp_Website,Comp_Status,User_ID) VALUES (@Comp_ID,@Comp_Name, @Comp_Description, @Comp_Telephone, @Comp_FirstStreet, @Comp_SecondStreet,@Comp_City, @Comp_State, @Comp_PostalCode, @Comp_KeyContact, @Comp_KYTelephone,@Comp_EmailAddress, @Comp_Website, @Comp_Status, @User_ID)",
+    insertEmpresas: "INSERT INTO EMPRESAS (Comp_ID,User_Email,User_Password,User_CreationAproval,Comp_Name,Comp_Description,Comp_Telephone,Comp_FirstStreet,Comp_SecondStreet,Comp_City,Comp_State,Comp_PostalCode,Comp_KeyContact,Comp_KYTelephone,Comp_EmailAddress,Comp_Website,Comp_Status,User_ID) VALUES (@Comp_ID,@User_Email,@User_Password,@User_CreationAproval,@Comp_Name, @Comp_Description, @Comp_Telephone, @Comp_FirstStreet, @Comp_SecondStreet,@Comp_City, @Comp_State, @Comp_PostalCode, @Comp_KeyContact, @Comp_KYTelephone,@Comp_EmailAddress, @Comp_Website, @Comp_Status, @User_ID)",
     selectEmpresas: "SELECT * FROM EMPRESAS WHERE Comp_Status = 1",
     selectEmpresaById: "SELECT * FROM EMPRESAS WHERE Comp_ID = @Id AND Comp_Status = 1",
     deleteEmpresa: "UPDATE EMPRESAS SET Comp_Status = 0 WHERE Comp_ID = @Id",
@@ -96,6 +96,7 @@ export const querysSOLICITUDES_OFERTAS_LABORALES = {
 export const querysAUTH = {
     getStudent: "SELECT E.Std_ID, E.Ca_ID, E.Std_FirstName ,E.Std_SecondName ,E.Std_LastName, E.Rol_ID FROM ESTUDIANTES E WHERE E.Std_ID = @Std_ID AND E.Std_Password = @Std_Password AND E.Std_Status = 1;",
     getUser: "SELECT * FROM USUARIOS U WHERE User_Email = @User_Email AND User_Status = 1",
+    getCompanie: "SELECT * FROM EMPRESAS WHERE User_Email = @User_Email AND User_Password = @User_Password AND Comp_Status = 1 AND User_CreationAproval = 1;",
 };
 
 export const querysESTUDIANTES = {

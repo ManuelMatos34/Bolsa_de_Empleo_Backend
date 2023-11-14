@@ -20,6 +20,9 @@ export const getEmpresas = async (req, res) => {
 export const postEmpresas = async (req, res) => {
     const {
         Comp_ID,
+        User_Email,
+        User_Password,
+        User_CreationAproval,
         Comp_Name,
         Comp_Description,
         Comp_Telephone,
@@ -49,6 +52,9 @@ export const postEmpresas = async (req, res) => {
         await pool2
             .request()
             .input("Comp_ID", sql.Numeric, Comp_ID)
+            .input("User_Email", sql.VarChar, User_Email)
+            .input("User_Password", sql.VarChar, User_Password)
+            .input("User_CreationAproval", sql.Char, User_CreationAproval)
             .input("Comp_Name", sql.VarChar, Comp_Name)
             .input("Comp_Description", sql.VarChar, Comp_Description)
             .input("Comp_Telephone", sql.Numeric, Comp_Telephone)
