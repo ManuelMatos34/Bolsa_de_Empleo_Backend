@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { getOfertaById,getOfertaByCarrera, getOfertas, updateOferta, deleteOferta, postOferta } from "../controllers/OFERTA.controller";
+import { getOfertaById,getOfertaByCarrera, getOfertas, updateOferta, deleteOferta, postOferta, getOfertasByComp } from "../controllers/OFERTA.controller";
 const router = Router();
 
 router.get("/oferta", getOfertas);
+router.get("/ofertasbycomp/:id", getOfertasByComp);
 router.get("/oferta/:id", getOfertaById);
 router.get("/ofertaByCa/:id", getOfertaByCarrera);
 router.post("/oferta", postOferta);

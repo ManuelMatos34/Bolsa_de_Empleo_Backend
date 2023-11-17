@@ -1,6 +1,6 @@
 export const querysEmpresas = {
     insertEmpresas: "INSERT INTO EMPRESAS (Comp_ID,User_Email,User_Password,User_CreationAproval,Comp_Name,Comp_Description,Comp_Telephone,Comp_FirstStreet,Comp_SecondStreet,Comp_City,Comp_State,Comp_PostalCode,Comp_KeyContact,Comp_KYTelephone,Comp_EmailAddress,Comp_Website,Comp_Status,User_ID) VALUES (@Comp_ID,@User_Email,@User_Password,@User_CreationAproval,@Comp_Name, @Comp_Description, @Comp_Telephone, @Comp_FirstStreet, @Comp_SecondStreet,@Comp_City, @Comp_State, @Comp_PostalCode, @Comp_KeyContact, @Comp_KYTelephone,@Comp_EmailAddress, @Comp_Website, @Comp_Status, @User_ID)",
-    selectEmpresas: "SELECT * FROM EMPRESAS WHERE Comp_Status = 1",
+    selectEmpresas: "SELECT * FROM EMPRESAS",
     selectEmpresaById: "SELECT * FROM EMPRESAS WHERE Comp_ID = @Id AND Comp_Status = 1",
     deleteEmpresa: "UPDATE EMPRESAS SET Comp_Status = 0 WHERE Comp_ID = @Id",
     updateEmpresa: "UPDATE EMPRESAS SET Comp_Name = @Comp_Name, Comp_Description = @Comp_Description, Comp_Telephone = @Comp_Telephone, Comp_FirstStreet = @Comp_FirstStreet, Comp_SecondStreet = @Comp_SecondStreet, Comp_City = @Comp_City, Comp_State = @Comp_State, Comp_PostalCode = @Comp_PostalCode, Comp_KeyContact = @Comp_KeyContact, Comp_KYTelephone = @Comp_KYTelephone, Comp_EmailAddress = @Comp_EmailAddress, Comp_Website = @Comp_Website, Comp_Status = @Comp_Status, User_ID = @User_ID WHERE Comp_ID = @Comp_ID",
@@ -28,6 +28,7 @@ export const querysOfertas = {
     selectOfertaByCarrera: "SELECT O.*, E.[Comp_Name] FROM [OFERTA_LABORAL] AS O INNER JOIN [EMPRESAS] AS E ON O.[Comp_ID] = E.[Comp_ID] WHERE O.[Ca_ID] = @Ca_ID AND O.[Job_Status] = 1;",
     insertOferta: "INSERT INTO OFERTA_LABORAL (Job_Title,Job_Description,Job_Requeriments,Job_CreationDate,Job_EndDate,Job_Modality,Job_NoVacancy,Job_ContractType,Job_Salary,Comp_ID,Job_Status,Ca_ID) VALUES (@Job_Title,@Job_Description,@Job_Requeriments,@Job_CreationDate,@Job_EndDate,@Job_Modality,@Job_NoVacancy,@Job_ContractType,@Job_Salary,@Comp_ID,@Job_Status,@Ca_ID)",
     selectOfertas: "SELECT * FROM OFERTA_LABORAL WHERE Job_Status = 1",
+    selectOfertasByComp: "SELECT * FROM OFERTA_LABORAL WHERE Comp_ID = @Comp_ID",
     selectOfertaById: "SELECT * FROM OFERTA_LABORAL WHERE Job_ID = @Id AND Job_Status = 1",
     deleteOferta: "UPDATE OFERTA_LABORAL SET Job_Status = 0 WHERE Job_ID = @Id",
     updateOferta: "UPDATE OFERTA_LABORAL SET Job_Title = @Job_Title, Job_Description = @Job_Description, Job_Requeriments = @Job_Requeriments, Job_Modality = @Job_Modality, Job_NoVacancy = @Job_NoVacancy, Job_ContractType = @Job_ContractType, Job_Salary = @Job_Salary, Ca_ID = @Ca_ID WHERE Job_ID = @Job_ID",
@@ -59,7 +60,7 @@ export const querysFacultades = {
 };
 
 export const querysHabilidades = {
-    getHabilidades: "SELECT * FROM HABILIDADES WHERE Skill_Status = 1",
+    getHabilidades: "SELECT H.Skill_ID, H.Skill, C.Ca_ID, C.Ca_Description, H.Skill_Status FROM HABILIDADES AS H INNER JOIN CARRERAS AS C ON H.Ca_ID = C.Ca_ID",
     searchHabilidad: "SELECT * FROM HABILIDADES WHERE Skill = @Skill AND Ca_ID = @Ca_ID",
     postHabilidad: "INSERT INTO HABILIDADES (Skill,Ca_ID,Skill_Status) VALUES (@Skill,@Ca_ID,1)",
     getHabilidadById: "SELECT * FROM HABILIDADES WHERE Skill_ID = @Id and Skill_Status = 1",
@@ -85,7 +86,7 @@ export const querysREL_ESTUDIANTES_HABILIDADES = {
 
 export const querysSOLICITUDES_OFERTAS_LABORALES = {
     getSolicitudesByEmpre: "SELECT SOL.Req_ID, OL.[Job_ID], OL.[Job_Title], OL.[Job_ContractType], OL.[Job_Modality], OL.[Job_NoVacancy], OL.[Job_Salary], COUNT(SOL.[Std_ID]) AS NumberOfApplicants FROM [sis_bolsa_empleo].[dbo].[OFERTA_LABORAL] OL LEFT JOIN [sis_bolsa_empleo].[dbo].[SOLICITUDES_OFERTAS_LABORALES] SOL ON OL.[Job_ID] = SOL.[Job_ID] WHERE OL.[Comp_ID] = @Comp_ID GROUP BY SOL.Req_ID, OL.[Job_ID], OL.[Job_Title], OL.[Job_ContractType], OL.[Job_Modality], OL.[Job_NoVacancy], OL.[Job_Salary] ORDER BY OL.[Job_ID];",
-    getAllDataBySoli: "SELECT E.Std_ID FROM [sis_bolsa_empleo].[dbo].[ESTUDIANTES] E INNER JOIN [sis_bolsa_empleo].[dbo].[SOLICITUDES_OFERTAS_LABORALES] SOL ON E.[Std_ID] = SOL.[Std_ID] WHERE SOL.[Job_ID] = @Job_ID;",
+    getAllDataBySoli: "SELECT E.Std_ID, E.Std_FirstName, E.Std_LastName, E.Std_SecondName FROM ESTUDIANTES E INNER JOIN SOLICITUDES_OFERTAS_LABORALES SOL ON E.Std_ID = SOL.Std_ID WHERE SOL.Job_ID = @Job_ID;",
     getSoliByCarrera: "SELECT [Job_ID], [Job_Title], [Job_Modality], [Job_NoVacancy], [Job_ContractType] FROM [sis_bolsa_empleo].[dbo].[OFERTA_LABORAL] WHERE [Ca_ID] = @Ca_ID;",
     postSolicitud: "INSERT INTO SOLICITUDES_OFERTAS_LABORALES (Req_Date,Req_SalaryExpetation,Req_RequestStatus,Job_ID,Std_ID,Req_Status) VALUES (@Req_Date,@Req_SalaryExpetation,@Req_RequestStatus,@Job_ID,@Std_ID,1)",
     confirmSolicitud: "UPDATE SOLICITUDES_OFERTAS_LABORALES SET Req_RequestStatus = @Req_RequestStatus WHERE Req_ID = @Req_ID",

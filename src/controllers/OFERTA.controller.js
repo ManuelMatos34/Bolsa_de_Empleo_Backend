@@ -91,6 +91,27 @@ export const getOfertaById = async (req, res) => {
     }
 };
 
+export const getOfertasByComp = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pool = await getConnection();
+        const result = await pool
+            .request()
+            .input("Comp_ID", sql.Numeric, id)
+            .query(querysOfertas.selectOfertasByComp);
+
+        if (result.recordset.length > 0) {
+            res.json(result.recordset);
+        } else {
+            res.json({
+                message: "Registro no encontrado",
+            });
+        }
+    } catch (error) {
+        res.send(error.message);
+    }
+};
+
 export const getOfertaByCarrera = async (req, res) => {
     try {
         const { id } = req.params;

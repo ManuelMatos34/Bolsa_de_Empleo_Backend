@@ -1,4 +1,3 @@
-import { query } from "mssql";
 import { getConnection, sql } from "../database/connection";
 import { querysHabilidades } from "../database/querys";
 
