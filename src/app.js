@@ -16,6 +16,7 @@ import estudiantesRoutes from "./routes/ESTUDIANTES.routes";
 import imagesRoutes from "./routes/IMAGES.routes";
 import cvRoutes from "./routes/CV.routes";
 import experienciaRoutes from "./routes/EXPERIENCIA.routes";
+import statsRoutes from "./routes/STATS.routes";
 
 
 // settings
@@ -47,5 +48,6 @@ app.use(estudiantesRoutes);
 app.use(imagesRoutes);
 app.use(cvRoutes);
 app.use(experienciaRoutes);
+app.use(statsRoutes);
 
 export default app;

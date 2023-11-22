@@ -1,3 +1,4 @@
+
 export const querysEmpresas = {
     insertEmpresas: "INSERT INTO EMPRESAS (Comp_ID,User_Email,User_Password,User_CreationAproval,Comp_Name,Comp_Description,Comp_Telephone,Comp_FirstStreet,Comp_SecondStreet,Comp_City,Comp_State,Comp_PostalCode,Comp_KeyContact,Comp_KYTelephone,Comp_EmailAddress,Comp_Website,Comp_Status,User_ID) VALUES (@Comp_ID,@User_Email,@User_Password,@User_CreationAproval,@Comp_Name, @Comp_Description, @Comp_Telephone, @Comp_FirstStreet, @Comp_SecondStreet,@Comp_City, @Comp_State, @Comp_PostalCode, @Comp_KeyContact, @Comp_KYTelephone,@Comp_EmailAddress, @Comp_Website, @Comp_Status, @User_ID)",
     selectEmpresas: "SELECT * FROM EMPRESAS",
@@ -60,10 +61,10 @@ export const querysFacultades = {
 };
 
 export const querysHabilidades = {
-    getHabilidades: "SELECT H.Skill_ID, H.Skill, C.Ca_ID, C.Ca_Description, H.Skill_Status FROM HABILIDADES AS H INNER JOIN CARRERAS AS C ON H.Ca_ID = C.Ca_ID",
-    searchHabilidad: "SELECT * FROM HABILIDADES WHERE Skill = @Skill AND Ca_ID = @Ca_ID",
+    getHabilidades: "SELECT H.Skill_ID, H.Skill, C.Ca_ID, C.Ca_Description, H.Skill_Status FROM HABILIDADES AS H INNER JOIN CARRERAS AS C ON H.Ca_ID = C.Ca_ID AND H.Skill_Status = 1",
+    searchHabilidad: "SELECT * FROM HABILIDADES WHERE Skill = @Skill AND Ca_ID = @Ca_ID And Skill_Status = 1",
     postHabilidad: "INSERT INTO HABILIDADES (Skill,Ca_ID,Skill_Status) VALUES (@Skill,@Ca_ID,1)",
-    getHabilidadById: "SELECT * FROM HABILIDADES WHERE Skill_ID = @Id and Skill_Status = 1",
+    getHabilidadById: "SELECT H.Skill_ID, H.Skill, C.Ca_ID, C.Ca_Description, H.Skill_Status FROM HABILIDADES AS H INNER JOIN CARRERAS AS C ON H.Ca_ID = C.Ca_ID AND H.Skill_Status = 1 and H.Skill_ID = @Id",
     deleteHabilidad: "UPDATE HABILIDADES SET Skill_Status = 0 WHERE Skill_ID = @Id",
     putHabilidad: "UPDATE HABILIDADES SET Skill = @Skill WHERE Skill_ID = @Skill_ID"
 };
@@ -103,7 +104,6 @@ export const querysAUTH = {
 export const querysESTUDIANTES = {
     getStdById: "SELECT C.Ca_Description, E.Rol_ID, E.Std_LastName, E.Std_ID, E.Std_Birthday, E.Std_City, E.Std_FirstName, E.Std_FirstStreet, E.Std_EducationalEmail, E.Std_HomePhone, E.Std_Telephone, E.Std_Identification, E.Std_SecondStreet, E.Std_SecondName, E.Std_PostalCode, E.Std_PersonalEmail, E.Std_State, I.Img, V.Cv_ID FROM ESTUDIANTES E LEFT JOIN CARRERAS C ON E.Ca_ID = C.Ca_ID LEFT JOIN ESTUDIANTES_IMAGEN I ON E.Std_ID = I.Std_ID LEFT JOIN CV V ON E.Std_ID = V.Std_ID WHERE E.Std_ID = @Std_ID;",
     putStd: "UPDATE ESTUDIANTES SET Std_FirstName = @Std_FirstName, Std_SecondName = @Std_SecondName, Std_LastName = @Std_LastName, Std_PersonalEmail = @Std_PersonalEmail, Std_FirstStreet = @Std_FirstStreet, Std_SecondStreet = @Std_SecondStreet, Std_City = @Std_City, Std_State = @Std_State, Std_PostalCode = @Std_PostalCode, Std_Telephone = @Std_Telephone, Std_HomePhone = @Std_HomePhone WHERE Std_ID = @Std_ID",
-
 };
 
 export const querysIMAGES = {
@@ -124,9 +124,22 @@ export const querysCV = {
 
 export const querysEXPERIENCIA = {
     getExp: "SELECT * FROM EXPERIENCIA WHERE Exp_Status = 1",
-    getExpByEst: "SELECT * FROM EXPERIENCIA WHERE Std_ID = @Std_ID",
+    getExpByEst: "SELECT * FROM EXPERIENCIA WHERE Std_ID = @Std_ID AND Exp_Status = 1",
     postExp: "INSERT INTO EXPERIENCIA (Position,Company,ContractType,Country,Modality,Exp_Status,InitiaDate,EndDate,Std_ID) VALUES (@Position,@Company,@ContractType,@Country,@Modality,1,@InitiaDate,@EndDate,@Std_ID)",
     getExpById: "SELECT * FROM EXPERIENCIA WHERE Exp_ID = @Exp_ID AND Exp_Status = 1",
-    deleteExp: "UPDATE EXPERIENCIA SET Exp_Status = 0 WHERE Exp_ID = @Id",
+    deleteExp: "UPDATE EXPERIENCIA SET Exp_Status = 0 WHERE Exp_ID = @Exp_ID",
     putExp: "UPDATE EXPERIENCIA SET Position = @Position, Company = @Company, ContractType = @ContractType, Country = @Country, Modality = @Modality, Exp_Status = 1, InitiaDate = @InitiaDate, EndDate = @EndDate WHERE Exp_ID = @Exp_ID",
+};
+
+export const querysSTATS = {
+    getStatsByOferta: "SELECT H.Ca_Description, COUNT(C.Ca_ID) as Total_Ofertas FROM CARRERAS H, OFERTA_LABORAL C WHERE H.Ca_ID = C.Ca_ID GROUP BY H.Ca_Description;",
+    getStatsByFacultad: "SELECT COUNT(Fa_ID) AS TOTAL_FACULTADES FROM FACULTADES;",
+    getStatsByEmpresas: "SELECT (SELECT COUNT(Comp_ID) FROM EMPRESAS) as Total, (SELECT COUNT(Comp_ID) FROM EMPRESAS WHERE User_CreationAproval = 1) as Aprovadas, (SELECT COUNT(Comp_ID) FROM EMPRESAS WHERE User_CreationAproval = 0) as No_aprovadas, (SELECT COUNT(Comp_ID) FROM EMPRESAS WHERE User_CreationAproval = 2) as Pendientes;",
+    getStatsByCarrera: "SELECT COUNT(CA_ID) AS TOTAL_CARRERAS FROM CARRERAS;",
+    getStatsByHabilidad: "SELECT C.Ca_Description, COUNT(C.Ca_ID) as Total_Habilidades FROM HABILIDADES H, CARRERAS C WHERE H.Ca_ID = C.Ca_ID GROUP BY C.Ca_Description;",
+    getCountByHab: "SELECT COUNT(Skill_ID) As total_habilidades FROM HABILIDADES WHERE Skill_Status = '1'",
+    getStatsByUser: "SELECT ((SELECT COUNT(Comp_ID) FROM EMPRESAS WHERE User_CreationAproval = 1) + (SELECT COUNT(User_ID) FROM USUARIOS) + (SELECT COUNT(Std_ID) FROM ESTUDIANTES)) as Total, (SELECT COUNT(User_ID) FROM USUARIOS) as Administradores, (SELECT COUNT(Std_ID) FROM ESTUDIANTES WHERE Rol_ID = 6) as Estudiantes, (SELECT COUNT(Std_ID) FROM ESTUDIANTES WHERE Rol_ID = 4) as Egresados, (SELECT COUNT(Comp_ID) FROM EMPRESAS WHERE User_CreationAproval = 1) as Empresas;",
+    getStatsOfertasByComp: "SELECT (SELECT COUNT(*) FROM OFERTA_LABORAL WHERE Comp_ID = @id) AS TOTAL_CREADAS, (SELECT COUNT(*) FROM OFERTA_LABORAL WHERE Comp_ID = @id AND Job_Status = '1') AS VIGENTES;",
+    getsChartByComp: "SELECT DATENAME(MONTH, Comp_RegisterDate) AS Month, COUNT(Comp_ID) AS NumEmpresasRegistradas FROM EMPRESAS GROUP BY DATENAME(MONTH, Comp_RegisterDate) ORDER BY Month;",
+    getsChartByOfer: "SELECT DATENAME(MONTH, Job_CreationDate) AS Month, COUNT(Job_ID) AS NumOfertasRegistradas FROM OFERTA_LABORAL GROUP BY DATENAME(MONTH, Job_CreationDate) ORDER BY Month;",
 };
