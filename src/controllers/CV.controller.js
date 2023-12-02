@@ -1,5 +1,6 @@
 import { getConnection, sql } from "../database/connection";
 import { querysCV } from "../database/querys";
+import { sendEmail } from "../helpers/helpers";
 
 export const postCv = async (req, res) => {
     try {
@@ -52,6 +53,14 @@ export const getCv = async (req, res) => {
             // Devuelve un mensaje adecuado si no se encontraron registros.
             res.json({ message: "No se encontraron registros." });
         }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+};
+
+export const send = async (req, res) => {
+    try {
+        sendEmail();  
     } catch (error) {
         res.status(500).send(error.message);
     }
