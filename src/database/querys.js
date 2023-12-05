@@ -1,6 +1,6 @@
 export const querysEmpresas = {
   insertEmpresas:
-    "INSERT INTO EMPRESAS (Comp_ID,User_Email,User_Password,User_CreationAproval,Comp_Name,Comp_Description,Comp_Telephone,Comp_FirstStreet,Comp_SecondStreet,Comp_City,Comp_State,Comp_PostalCode,Comp_KeyContact,Comp_KYTelephone,Comp_EmailAddress,Comp_Website,Comp_Status,User_ID) VALUES (@Comp_ID,@User_Email,@User_Password,@User_CreationAproval,@Comp_Name, @Comp_Description, @Comp_Telephone, @Comp_FirstStreet, @Comp_SecondStreet,@Comp_City, @Comp_State, @Comp_PostalCode, @Comp_KeyContact, @Comp_KYTelephone,@Comp_EmailAddress, @Comp_Website, @Comp_Status, @User_ID)",
+    "INSERT INTO EMPRESAS (Rol_ID,Comp_ID,User_Email,User_Password,User_CreationAproval,Comp_Name,Comp_Description,Comp_Telephone,Comp_FirstStreet,Comp_SecondStreet,Comp_City,Comp_State,Comp_PostalCode,Comp_KeyContact,Comp_KYTelephone,Comp_EmailAddress,Comp_Website,Comp_Status,Comp_RegisterDate) VALUES (@Rol_ID,@Comp_ID,@User_Email,@User_Password,@User_CreationAproval,@Comp_Name, @Comp_Description, @Comp_Telephone, @Comp_FirstStreet, @Comp_SecondStreet,@Comp_City, @Comp_State, @Comp_PostalCode, @Comp_KeyContact, @Comp_KYTelephone,@Comp_EmailAddress, @Comp_Website, @Comp_Status,@Comp_RegisterDate)",
   selectEmpresas: "SELECT * FROM EMPRESAS",
   selectEmpresaById:
     "SELECT E.*, EL.[Img] FROM EMPRESAS E JOIN EMPRESA_LOGO EL ON E.[Comp_ID] = EL.[Comp_ID] Where E.[Comp_ID] = @Id",
@@ -163,8 +163,7 @@ export const querysESTUDIANTES = {
 };
 
 export const querysIMAGES = {
-  getImgEst:
-    "SELECT * FROM ESTUDIANTES_IMAGEN WHERE Std_ID = @Id",
+  getImgEst: "SELECT * FROM ESTUDIANTES_IMAGEN WHERE Std_ID = @Id",
   getImgEmp: "SELECT * FROM EMPRESA_LOGO WHERE Comp_ID = @Comp_ID",
   postImgEst:
     "INSERT INTO ESTUDIANTES_IMAGEN (Img,Std_ID,Std_Img_Status) VALUES (@Img,@Std_ID,1)",

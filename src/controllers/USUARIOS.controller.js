@@ -213,7 +213,7 @@ export const validateUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { User_CreationAproval, compName, compEmail } = req.body;
-    console.log(compName, compEmail);
+    console.log("kloq", compName, compEmail);
 
     if (id === "") {
       return res.status(400).json({

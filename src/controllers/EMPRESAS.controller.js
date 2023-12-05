@@ -1,5 +1,6 @@
 import { getConnection, sql } from "../database/connection";
 import { querysEmpresas } from "../database/querys";
+import { sendEmail } from "../helpers/helpers";
 
 export const getEmpresas = async (req, res) => {
   try {
@@ -22,7 +23,6 @@ export const postEmpresas = async (req, res) => {
     Comp_ID,
     User_Email,
     User_Password,
-    User_CreationAproval,
     Comp_Name,
     Comp_Description,
     Comp_Telephone,
@@ -35,7 +35,6 @@ export const postEmpresas = async (req, res) => {
     Comp_KYTelephone,
     Comp_EmailAddress,
     Comp_Website,
-    User_ID,
   } = req.body;
   try {
     const pool1 = await getConnection();
@@ -54,7 +53,7 @@ export const postEmpresas = async (req, res) => {
       .input("Comp_ID", sql.Numeric, Comp_ID)
       .input("User_Email", sql.VarChar, User_Email)
       .input("User_Password", sql.VarChar, User_Password)
-      .input("User_CreationAproval", sql.Char, User_CreationAproval)
+      .input("User_CreationAproval", sql.Char, "2")
       .input("Comp_Name", sql.VarChar, Comp_Name)
       .input("Comp_Description", sql.VarChar, Comp_Description)
       .input("Comp_Telephone", sql.Numeric, Comp_Telephone)
@@ -68,18 +67,16 @@ export const postEmpresas = async (req, res) => {
       .input("Comp_EmailAddress", sql.VarChar, Comp_EmailAddress)
       .input("Comp_Website", sql.VarChar, Comp_Website)
       .input("Comp_Status", sql.Char, "1")
-      .input("User_ID", sql.Int, User_ID)
+      .input("Comp_RegisterDate", sql.Date, new Date())
+      .input("Rol_ID", sql.Int, 3)
       .query(querysEmpresas.insertEmpresas);
-    if (req.files !== null) {
-      const logo_company = req.files.archivo.data;
-      const pool_img = await getConnection();
-      await pool_img
-        .request()
-        .input("Img", sql.VarBinary, logo_company)
-        .input("Comp_ID", sql.Numeric, Comp_ID)
-        .query(querysEmpresas.insertIMG);
-    }
     res.json(req.body);
+    sendEmail(
+      Comp_Name,
+      User_Email,
+      `Su solicitud de registro ha sido recibida, en breve recibirá un correo con la aprobación de su solicitud. \n\nGracias por preferirnos.`
+    );
+    console.log("Correo enviado", User_Email);
   } catch (error) {
     res.send(error.message);
   }
